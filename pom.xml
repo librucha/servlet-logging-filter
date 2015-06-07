@@ -6,7 +6,7 @@
 
 	<groupId>org.librucha.utils.logging</groupId>
 	<artifactId>servlet-logging-filter</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 
 	<name>Servlet logging filter</name>
 	<description>Servlet filter for logging requests and responses</description>
