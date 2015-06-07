@@ -65,7 +65,7 @@ public abstract class AbstractLoggingFilter implements Filter {
 		response.getOutputStream().write(responseWrapper.getContentAsBytes());
 	}
 
-	private String getRequestDescription(LoggingHttpServletRequestWrapper requestWrapper) {
+	protected String getRequestDescription(LoggingHttpServletRequestWrapper requestWrapper) {
 		LoggingRequest loggingRequest = new LoggingRequest();
 		loggingRequest.setMethod(requestWrapper.getMethod());
 		loggingRequest.setPath(requestWrapper.getRequestURI());
@@ -86,7 +86,7 @@ public abstract class AbstractLoggingFilter implements Filter {
 		}
 	}
 
-	private String getResponseDescription(LoggingHttpServletResponseWrapper responseWrapper) {
+	protected String getResponseDescription(LoggingHttpServletResponseWrapper responseWrapper) {
 		LoggingResponse loggingResponse = new LoggingResponse();
 		loggingResponse.setStatus(responseWrapper.getStatus());
 		loggingResponse.setHeaders(responseWrapper.getHeaders());
