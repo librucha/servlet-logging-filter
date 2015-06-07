@@ -10,7 +10,7 @@
 
 	<name>Servlet logging filter</name>
 	<description>Servlet filter for logging requests and responses</description>
-	<url>https://github.com/librucha/servlet-logging-filter/blob/master/README.md</url>
+	<url>http://librucha.github.io/servlet-logging-filter</url>
 
 	<licenses>
 		<license>
