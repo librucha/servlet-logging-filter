@@ -1,6 +1,8 @@
 # servlet-logging-filter
 Servlet filter for logging requests and responses
 
+Web page equivalent is [here](http://librucha.github.io/servlet-logging-filter)
+
 ## Usage
 ```java
 @WebFilter(value = "/*", displayName = "loggingFilter")
