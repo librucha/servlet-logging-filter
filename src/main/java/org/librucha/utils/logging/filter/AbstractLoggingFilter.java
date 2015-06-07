@@ -32,6 +32,11 @@ public abstract class AbstractLoggingFilter implements Filter {
 		maxContentSize = 512;
 	}
 
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+	}
+
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
@@ -39,6 +44,10 @@ public abstract class AbstractLoggingFilter implements Filter {
 
 			doFilterInternal(httpServletRequest, httpServletResponse, filterChain);
 		}
+	}
+
+	@Override
+	public void destroy() {
 	}
 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
