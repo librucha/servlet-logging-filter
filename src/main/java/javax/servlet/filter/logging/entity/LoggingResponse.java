@@ -1,4 +1,4 @@
-package org.librucha.utils.logging.entity;
+package javax.servlet.filter.logging.entity;
 
 import java.io.Serializable;
 import java.util.Map;
