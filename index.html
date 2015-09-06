@@ -4,11 +4,11 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Servlet-logging-filter : Servlet filter for logging requests and responses">
+    <meta name="description" content="Servlet logging filter : Servlet filter for logging requests and responses">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Servlet-logging-filter</title>
+    <title>Servlet logging filter</title>
   </head>
 
   <body>
@@ -18,7 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/librucha/servlet-logging-filter">View on GitHub</a>
 
-          <h1 id="project_title">Servlet-logging-filter</h1>
+          <h1 id="project_title">Servlet logging filter</h1>
           <h2 id="project_tagline">Servlet filter for logging requests and responses</h2>
 
             <section id="downloads">
@@ -36,18 +36,69 @@
 
 <p>Servlet filter for logging requests and responses</p>
 
+<p>Web page equivalent is <a href="http://librucha.github.io/servlet-logging-filter">here</a></p>
+
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<div class="highlight highlight-java"><pre>@WebFilter(value <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>/*<span class="pl-pds">"</span></span>, displayName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>loggingFilter<span class="pl-pds">"</span></span>)
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">LoggingFilter</span> <span class="pl-k">extends</span> <span class="pl-e">AbstractLoggingFilter</span> {
+<p>Filter implements <strong>javax.servlet.Filter</strong> from Serlvet API 3.1.0
+You can register the filter using <strong>web.xml</strong> descriptor.</p>
 
-    <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">final</span> <span class="pl-smi">Logger</span> log <span class="pl-k">=</span> <span class="pl-smi">LoggerFactory</span><span class="pl-k">.</span>getLogger(<span class="pl-smi">LoggingFilter</span><span class="pl-k">.</span>class);
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">filter</span>&gt;
+    &lt;<span class="pl-ent">filter-name</span>&gt;LoggingFilter&lt;/<span class="pl-ent">filter-name</span>&gt;
+    &lt;<span class="pl-ent">filter-class</span>&gt;javax.servlet.filter.logging.LoggingFilter&lt;/<span class="pl-ent">filter-class</span>&gt;
+&lt;/<span class="pl-ent">filter</span>&gt;
+&lt;<span class="pl-ent">filter-mapping</span>&gt;
+    &lt;<span class="pl-ent">filter-name</span>&gt;LoggingFilter&lt;/<span class="pl-ent">filter-name</span>&gt;
+    &lt;<span class="pl-ent">url-pattern</span>&gt;/*&lt;/<span class="pl-ent">url-pattern</span>&gt;
+&lt;/<span class="pl-ent">filter-mapping</span>&gt;</pre></div>
 
-    <span class="pl-k">public</span> <span class="pl-en">LoggingFilter</span>() {
-        <span class="pl-v">super</span>(log);
-    }
+<p>or <strong>javax.servlet.ServletContext</strong></p>
+
+<div class="highlight highlight-java"><pre><span class="pl-k">public</span> <span class="pl-k">void</span> onStartup(<span class="pl-smi">ServletContext</span> servletContext) throws <span class="pl-smi">ServletException</span> {
+    <span class="pl-smi">Dynamic</span> registration <span class="pl-k">=</span> servletContext<span class="pl-k">.</span>addFilter(<span class="pl-s"><span class="pl-pds">"</span>LoggingFilter<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> <span class="pl-smi">LoggingFilter</span>());
+    registration<span class="pl-k">.</span>addMappingForUrlPatterns(<span class="pl-smi">EnumSet</span><span class="pl-k">.</span>allOf(<span class="pl-smi">DispatcherType</span><span class="pl-k">.</span>class), <span class="pl-c1">false</span>, <span class="pl-s"><span class="pl-pds">"</span>/*<span class="pl-pds">"</span></span>);
 }</pre></div>
+
+<h3>
+<a id="init-params" class="anchor" href="#init-params" aria-hidden="true"><span class="octicon octicon-link"></span></a>Init params</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>loggerName</td>
+<td>class name</td>
+<td>Logger name for output</td>
+</tr>
+<tr>
+<td>maxContentSize</td>
+<td>1024 bytes</td>
+<td>Maximal logged body size in bytes</td>
+</tr>
+<tr>
+<td>excludedPaths</td>
+<td>empty</td>
+<td>Comma sepparated list of URL prefixes e.g.: "/api,/admin"</td>
+</tr>
+<tr>
+<td>requestPrefix</td>
+<td>REQUEST:</td>
+<td>First word on request output line</td>
+</tr>
+<tr>
+<td>responsePrefix</td>
+<td>RESPONSE:</td>
+<td>First word on response output line</td>
+</tr>
+</tbody>
+</table>
 
 <h2>
 <a id="customization" class="anchor" href="#customization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customization</h2>
@@ -57,24 +108,24 @@
 <h3>
 <a id="main-filter-processing" class="anchor" href="#main-filter-processing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main filter processing</h3>
 
-<div class="highlight highlight-java"><pre><span class="pl-smi">org.librucha.utils.logging.filter<span class="pl-k">.</span>AbstractLoggingFilter</span><span class="pl-k">.</span>doFilterInternal</pre></div>
+<div class="highlight highlight-java"><pre><span class="pl-smi">javax.servlet.filter.logging<span class="pl-k">.</span>LoggingFilter</span><span class="pl-k">.</span>doFilter</pre></div>
 
 <h3>
-<a id="creating-description-of-request-dafault-is-create-json-object" class="anchor" href="#creating-description-of-request-dafault-is-create-json-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating description of request. Dafault is create JSON object.</h3>
+<a id="creating-description-of-request-default-is-create-json-object" class="anchor" href="#creating-description-of-request-default-is-create-json-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating description of request. Default is create JSON object.</h3>
 
-<div class="highlight highlight-java"><pre><span class="pl-smi">org.librucha.utils.logging.filter<span class="pl-k">.</span>AbstractLoggingFilter</span><span class="pl-k">.</span>getRequestDescription</pre></div>
+<div class="highlight highlight-java"><pre><span class="pl-smi">javax.servlet.filter.logging<span class="pl-k">.</span>LoggingFilter</span><span class="pl-k">.</span>getRequestDescription</pre></div>
 
 <h3>
-<a id="creating-description-of-response-dafault-is-create-json-object" class="anchor" href="#creating-description-of-response-dafault-is-create-json-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating description of response. Dafault is create JSON object.</h3>
+<a id="creating-description-of-response-default-is-create-json-object" class="anchor" href="#creating-description-of-response-default-is-create-json-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating description of response. Default is create JSON object.</h3>
 
-<div class="highlight highlight-java"><pre><span class="pl-smi">org.librucha.utils.logging.filter<span class="pl-k">.</span>AbstractLoggingFilter</span><span class="pl-k">.</span>getResponseDescription</pre></div>
+<div class="highlight highlight-java"><pre><span class="pl-smi">javax.servlet.filter.logging<span class="pl-k">.</span>LoggingFilter</span><span class="pl-k">.</span>getResponseDescription</pre></div>
       </section>
     </div>
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Servlet-logging-filter maintained by <a href="https://github.com/librucha">librucha</a></p>
+        <p class="copyright">Servlet logging filter maintained by <a href="https://github.com/librucha">librucha</a></p>
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
