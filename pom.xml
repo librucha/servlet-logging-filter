@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.librucha.utils.logging</groupId>
-	<artifactId>servlet-logging-filter</artifactId>
-	<version>1.0.0</version>
+	<groupId>javax.servlet</groupId>
+	<artifactId>javax.servlet-logging-filter</artifactId>
+	<version>1.0.1</version>
 
 	<name>Servlet logging filter</name>
 	<description>Servlet filter for logging requests and responses</description>
@@ -31,7 +31,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<slf4j.version>1.7.12</slf4j.version>
-		<jackson.version>2.5.2</jackson.version>
+		<jackson.version>2.6.1</jackson.version>
 		<servlet.version>3.1.0</servlet.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
 		<commons-io.version>2.4</commons-io.version>

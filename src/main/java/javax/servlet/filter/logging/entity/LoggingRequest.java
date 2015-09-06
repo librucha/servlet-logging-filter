@@ -1,4 +1,4 @@
-package org.librucha.utils.logging.entity;
+package javax.servlet.filter.logging.entity;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -6,6 +6,8 @@ import java.util.Map;
 public class LoggingRequest implements Serializable {
 
 	private static final long serialVersionUID = -4702574169916528738L;
+
+	private String host;
 
 	private String method;
 
@@ -16,6 +18,14 @@ public class LoggingRequest implements Serializable {
 	private Map<String, String> headers;
 
 	private String body;
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
 
 	public String getMethod() {
 		return method;
