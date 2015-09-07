@@ -128,6 +128,7 @@ public class LoggingFilter implements Filter {
 
 	protected String getRequestDescription(LoggingHttpServletRequestWrapper requestWrapper) {
 		LoggingRequest loggingRequest = new LoggingRequest();
+		loggingRequest.setSender(requestWrapper.getLocalAddr());
 		loggingRequest.setMethod(requestWrapper.getMethod());
 		loggingRequest.setPath(requestWrapper.getRequestURI());
 		loggingRequest.setParams(requestWrapper.isFormPost() ? null : requestWrapper.getParameters());

@@ -1,5 +1,5 @@
-# servlet-logging-filter
-Servlet filter for logging requests and responses
+# Servlet logging filter
+Java 8 Servlet filter for logging requests and responses
 
 Web page equivalent is [here](http://librucha.github.io/servlet-logging-filter)
 
@@ -48,4 +48,10 @@ javax.servlet.filter.logging.LoggingFilter.getRequestDescription
 ### Creating description of response. Default is create JSON object.
 ```java
 javax.servlet.filter.logging.LoggingFilter.getResponseDescription
+```
+
+## Output
+```
+REQUEST:{"sender": "127.0.0.1", "method": "GET", "path": "http://localhost:8080/test", "params": {"param1": "1000"}, "headers": {"Accept": "application/json", "Content-Type":"text/plain"}, "body": "Test request body"}
+RESPONSE: {"status":200,"headers":{"Content-Type":"text/plain"},"body":"Test response body"}
 ```

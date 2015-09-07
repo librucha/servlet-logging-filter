@@ -7,7 +7,7 @@ public class LoggingRequest implements Serializable {
 
 	private static final long serialVersionUID = -4702574169916528738L;
 
-	private String host;
+	private String sender;
 
 	private String method;
 
@@ -19,12 +19,12 @@ public class LoggingRequest implements Serializable {
 
 	private String body;
 
-	public String getHost() {
-		return host;
+	public String getSender() {
+		return sender;
 	}
 
-	public void setHost(String host) {
-		this.host = host;
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 
 	public String getMethod() {
