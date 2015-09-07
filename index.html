@@ -32,11 +32,9 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a id="servlet-logging-filter" class="anchor" href="#servlet-logging-filter" aria-hidden="true"><span class="octicon octicon-link"></span></a>servlet-logging-filter</h1>
+<a id="servlet-logging-filter" class="anchor" href="#servlet-logging-filter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Servlet logging filter</h1>
 
-<p>Servlet filter for logging requests and responses</p>
-
-<p>Web page equivalent is <a href="http://librucha.github.io/servlet-logging-filter">here</a></p>
+<p>Java 8 Servlet filter for logging requests and responses</p>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
@@ -119,6 +117,13 @@ You can register the filter using <strong>web.xml</strong> descriptor.</p>
 <a id="creating-description-of-response-default-is-create-json-object" class="anchor" href="#creating-description-of-response-default-is-create-json-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating description of response. Default is create JSON object.</h3>
 
 <div class="highlight highlight-java"><pre><span class="pl-smi">javax.servlet.filter.logging<span class="pl-k">.</span>LoggingFilter</span><span class="pl-k">.</span>getResponseDescription</pre></div>
+
+<h2>
+<a id="output" class="anchor" href="#output" aria-hidden="true"><span class="octicon octicon-link"></span></a>Output</h2>
+
+<pre><code>REQUEST:{"sender": "127.0.0.1", "method": "GET", "path": "http://localhost:8080/test", "params": {"param1": "1000"}, "headers": {"Accept": "application/json", "Content-Type":"text/plain"}, "body": "Test request body"}
+RESPONSE: {"status":200,"headers":{"Content-Type":"text/plain"},"body":"Test response body"}
+</code></pre>
       </section>
     </div>
 
