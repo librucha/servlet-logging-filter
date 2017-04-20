@@ -4,7 +4,7 @@ Java 8 Servlet filter for logging requests and responses
 Web page equivalent is [here](http://librucha.github.io/servlet-logging-filter)
 
 ## Usage
-Filter implements **javax.servlet.Filter** from Serlvet API 3.1.0
+Filter implements **javax.servlet.Filter** from Servlet API 3.1.0
 You can register the filter using **web.xml** descriptor.
 ```xml
 <filter>
