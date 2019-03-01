@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -37,11 +39,19 @@ public class LoggingFilter implements Filter {
 
 	private int maxContentSize;
 
-	private Set<String> excludedPaths = emptySet();
+	private Set<String> excludedPaths;
 
 	private String requestPrefix;
 
 	private String responsePrefix;
+
+	private Marker requestMarker;
+
+	private Marker responseMarker;
+
+	private boolean disableMarker;
+
+	private boolean disablePrefix;
 
 	static {
 		OBJECT_MAPPER.setSerializationInclusion(Include.NON_EMPTY);
@@ -61,6 +71,10 @@ public class LoggingFilter implements Filter {
 		this.excludedPaths = builder.excludedPaths;
 		this.requestPrefix = builder.requestPrefix;
 		this.responsePrefix = builder.responsePrefix;
+		this.requestMarker = builder.requestMarker;
+		this.responseMarker = builder.responseMarker;
+		this.disableMarker = builder.disableMarker;
+		this.disablePrefix = builder.disablePrefix;
 	}
 
 	@Override
@@ -91,6 +105,26 @@ public class LoggingFilter implements Filter {
 		if (isNotBlank(responsePrefix)) {
 			this.responsePrefix = responsePrefix;
 		}
+
+		String requestMarker = filterConfig.getInitParameter("requestMarker");
+		if (isNotBlank(requestMarker)) {
+			this.requestMarker = MarkerFactory.getMarker(requestMarker);
+		}
+
+		String responseMarker = filterConfig.getInitParameter("responseMarker");
+		if (isNotBlank(responseMarker)) {
+			this.responseMarker = MarkerFactory.getMarker(responseMarker);
+		}
+
+		String disablePrefix = filterConfig.getInitParameter("disablePrefix");
+		if (isNotBlank(disablePrefix)) {
+			this.disablePrefix = Boolean.valueOf(disablePrefix);
+		}
+
+		String disableMarker = filterConfig.getInitParameter("disableMarker");
+		if (isNotBlank(disableMarker)) {
+			this.disableMarker = Boolean.valueOf(disableMarker);
+		}
 	}
 
 	@Override
@@ -116,14 +150,29 @@ public class LoggingFilter implements Filter {
 		LoggingHttpServletRequestWrapper requestWrapper = new LoggingHttpServletRequestWrapper(httpRequest);
 		LoggingHttpServletResponseWrapper responseWrapper = new LoggingHttpServletResponseWrapper(httpResponse);
 
-		log.debug(requestPrefix + getRequestDescription(requestWrapper));
+		String resolvedRequestPrefix = disablePrefix ? "" : requestPrefix;
+		String resolvedResponsePrefix = disablePrefix ? "" : responsePrefix;
+
+		if (disableMarker) {
+			log.debug(resolvedRequestPrefix + getRequestDescription(requestWrapper));
+		} else {
+			log.debug(requestMarker, resolvedRequestPrefix + getRequestDescription(requestWrapper));
+		}
+
 		filterChain.doFilter(requestWrapper, responseWrapper);
-		log.debug(responsePrefix + getResponseDescription(responseWrapper));
+
+		if (disableMarker) {
+			log.debug(resolvedResponsePrefix + getResponseDescription(responseWrapper));
+		} else {
+			log.debug(responseMarker, resolvedResponsePrefix + getResponseDescription(responseWrapper));
+		}
+
 		httpResponse.getOutputStream().write(responseWrapper.getContentAsBytes());
 	}
 
 	@Override
 	public void destroy() {
+		// nothing special
 	}
 
 	protected String getRequestDescription(LoggingHttpServletRequestWrapper requestWrapper) {
@@ -175,9 +224,14 @@ public class LoggingFilter implements Filter {
 
 		private Set<String> excludedPaths = emptySet();
 
-		private String requestPrefix = "REQUEST: ";
+		private Marker requestMarker = MarkerFactory.getMarker("REQUEST");
+		private String requestPrefix = requestMarker.getName() + ": ";
 
-		private String responsePrefix = "RESPONSE: ";
+		private Marker responseMarker = MarkerFactory.getMarker("RESPONSE");
+		private String responsePrefix = responseMarker.getName() + ": ";
+
+		private boolean disableMarker;
+		private boolean disablePrefix;
 
 		public static Builder create() {
 			return new Builder();
@@ -199,6 +253,11 @@ public class LoggingFilter implements Filter {
 			return this;
 		}
 
+		public void requestMarker(String marker) {
+			requireNonNull(marker, "marker must not be null");
+			this.requestMarker = MarkerFactory.getMarker(marker);
+		}
+
 		public void requestPrefix(String requestPrefix) {
 			requireNonNull(requestPrefix, "requestPrefix must not be null");
 			this.requestPrefix = requestPrefix;
@@ -207,6 +266,19 @@ public class LoggingFilter implements Filter {
 		public void responsePrefix(String responsePrefix) {
 			requireNonNull(responsePrefix, "responsePrefix must not be null");
 			this.responsePrefix = responsePrefix;
+		}
+
+		public void responseMarker(String marker) {
+			requireNonNull(marker, "marker must not be null");
+			this.responseMarker = MarkerFactory.getMarker(marker);
+		}
+
+		public void disableMarker(boolean disable) {
+			this.disableMarker = disable;
+		}
+
+		public void disablePrefix(boolean disable) {
+			this.disablePrefix = disable;
 		}
 	}
 }
