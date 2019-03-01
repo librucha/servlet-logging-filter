@@ -31,6 +31,10 @@ public void onStartup(ServletContext servletContext) throws ServletException {
 |excludedPaths |empty     |Comma sepparated list of URL prefixes e.g.: "/api,/admin"|
 |requestPrefix |REQUEST:  |First word on request output line                        |
 |responsePrefix|RESPONSE: |First word on response output line                       |
+|requestMarker |RESPONSE  |Slf4J marker for request                                 |
+|responseMarker|RESPONSE  |Slf4J marker for response                                |
+|disablePrefix |false     |No prefixes are logged if true                           |
+|disableMarkers|false     |No Slf4J markers are logged if true                           |
 
 ## Customization
 There are few methods for rewrite if you want:
@@ -52,6 +56,6 @@ javax.servlet.filter.logging.LoggingFilter.getResponseDescription
 
 ## Output
 ```
-REQUEST:{"sender": "127.0.0.1", "method": "GET", "path": "http://localhost:8080/test", "params": {"param1": "1000"}, "headers": {"Accept": "application/json", "Content-Type":"text/plain"}, "body": "Test request body"}
+REQUEST: {"sender": "127.0.0.1", "method": "GET", "path": "http://localhost:8080/test", "params": {"param1": "1000"}, "headers": {"Accept": "application/json", "Content-Type":"text/plain"}, "body": "Test request body"}
 RESPONSE: {"status":200,"headers":{"Content-Type":"text/plain"},"body":"Test response body"}
 ```
