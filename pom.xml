@@ -19,7 +19,7 @@
 
 	<scm>
 		<url>https://github.com/librucha/servlet-logging-filter</url>
-		<connection>scm:git://https://github.com/librucha/servlet-logging-filter</connection>
+		<connection>scm:git:git@github.com:librucha/servlet-logging-filter.git</connection>
 		<tag>1.2.2</tag>
 	</scm>
 
