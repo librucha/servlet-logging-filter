@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
@@ -109,8 +110,7 @@ public class LoggingHttpServletRequestWrapper extends HttpServletRequestWrapper 
 			String normalizedContent = StringUtils.normalizeSpace(new String(content, requestEncoding != null ? requestEncoding : StandardCharsets.UTF_8.name()));
 			return StringUtils.isBlank(normalizedContent) ? "[EMPTY]" : normalizedContent;
 		} catch (IOException e) {
-			e.printStackTrace();
-			throw new IllegalStateException();
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -145,6 +145,7 @@ public class LoggingHttpServletRequestWrapper extends HttpServletRequestWrapper 
 		return (contentType != null && contentType.contains(FORM_CONTENT_TYPE) && METHOD_POST.equalsIgnoreCase(getMethod()));
 	}
 
+	@SuppressWarnings({"squid:S1150"})
 	private class ParamNameEnumeration implements Enumeration<String> {
 
 		private final Iterator<String> iterator;
@@ -184,6 +185,7 @@ public class LoggingHttpServletRequestWrapper extends HttpServletRequestWrapper 
 
 		@Override
 		public void setReadListener(ReadListener readListener) {
+			// not used
 		}
 
 		@Override

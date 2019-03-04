@@ -78,56 +78,57 @@ public class LoggingFilter implements Filter {
 	}
 
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+	public void init(FilterConfig filterConfig) {
 
 		String loggerName = filterConfig.getInitParameter("loggerName");
 		if (isNotBlank(loggerName)) {
 			this.log = getLogger(getClass());
 		}
 
-		String maxContentSize = filterConfig.getInitParameter("maxContentSize");
-		if (maxContentSize != null) {
-			this.maxContentSize = Integer.parseInt(maxContentSize);
+		String maxContentSizeParam = filterConfig.getInitParameter("maxContentSize");
+		if (maxContentSizeParam != null) {
+			this.maxContentSize = Integer.parseInt(maxContentSizeParam);
 		}
 
-		String excludedPaths = filterConfig.getInitParameter("excludedPaths");
-		if (isNotBlank(excludedPaths)) {
-			String[] paths = excludedPaths.split("\\s*,\\s*");
+		String excludedPathsParam = filterConfig.getInitParameter("excludedPaths");
+		if (isNotBlank(excludedPathsParam)) {
+			String[] paths = excludedPathsParam.split("\\s*,\\s*");
 			this.excludedPaths = new HashSet<>(asList(paths));
 		}
 
-		String requestPrefix = filterConfig.getInitParameter("requestPrefix");
-		if (isNotBlank(requestPrefix)) {
-			this.requestPrefix = requestPrefix;
+		String requestPrefixParam = filterConfig.getInitParameter("requestPrefix");
+		if (isNotBlank(requestPrefixParam)) {
+			this.requestPrefix = requestPrefixParam;
 		}
 
-		String responsePrefix = filterConfig.getInitParameter("responsePrefix");
-		if (isNotBlank(responsePrefix)) {
-			this.responsePrefix = responsePrefix;
+		String responsePrefixParam = filterConfig.getInitParameter("responsePrefix");
+		if (isNotBlank(responsePrefixParam)) {
+			this.responsePrefix = responsePrefixParam;
 		}
 
-		String requestMarker = filterConfig.getInitParameter("requestMarker");
-		if (isNotBlank(requestMarker)) {
-			this.requestMarker = MarkerFactory.getMarker(requestMarker);
+		String requestMarkerParam = filterConfig.getInitParameter("requestMarker");
+		if (isNotBlank(requestMarkerParam)) {
+			this.requestMarker = MarkerFactory.getMarker(requestMarkerParam);
 		}
 
-		String responseMarker = filterConfig.getInitParameter("responseMarker");
-		if (isNotBlank(responseMarker)) {
-			this.responseMarker = MarkerFactory.getMarker(responseMarker);
+		String responseMarkerParam = filterConfig.getInitParameter("responseMarker");
+		if (isNotBlank(responseMarkerParam)) {
+			this.responseMarker = MarkerFactory.getMarker(responseMarkerParam);
 		}
 
-		String disablePrefix = filterConfig.getInitParameter("disablePrefix");
-		if (isNotBlank(disablePrefix)) {
-			this.disablePrefix = Boolean.valueOf(disablePrefix);
+		String disablePrefixParam = filterConfig.getInitParameter("disablePrefix");
+		if (isNotBlank(disablePrefixParam)) {
+			this.disablePrefix = Boolean.valueOf(disablePrefixParam);
 		}
 
-		String disableMarker = filterConfig.getInitParameter("disableMarker");
-		if (isNotBlank(disableMarker)) {
-			this.disableMarker = Boolean.valueOf(disableMarker);
+		String disableMarkerParam = filterConfig.getInitParameter("disableMarker");
+		if (isNotBlank(disableMarkerParam)) {
+			this.disableMarker = Boolean.valueOf(disableMarkerParam);
 		}
 	}
 
 	@Override
+	@SuppressWarnings({"squid:S3457", "squid:S2629"})
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		if (!(request instanceof HttpServletRequest) || !(response instanceof HttpServletResponse)) {
 			throw new ServletException("LoggingFilter just supports HTTP requests");
@@ -253,32 +254,42 @@ public class LoggingFilter implements Filter {
 			return this;
 		}
 
-		public void requestMarker(String marker) {
+		public Builder requestMarker(String marker) {
 			requireNonNull(marker, "marker must not be null");
 			this.requestMarker = MarkerFactory.getMarker(marker);
+			return this;
 		}
 
-		public void requestPrefix(String requestPrefix) {
+		public Builder requestPrefix(String requestPrefix) {
 			requireNonNull(requestPrefix, "requestPrefix must not be null");
 			this.requestPrefix = requestPrefix;
+			return this;
 		}
 
-		public void responsePrefix(String responsePrefix) {
+		public Builder responsePrefix(String responsePrefix) {
 			requireNonNull(responsePrefix, "responsePrefix must not be null");
 			this.responsePrefix = responsePrefix;
+			return this;
 		}
 
-		public void responseMarker(String marker) {
+		public Builder responseMarker(String marker) {
 			requireNonNull(marker, "marker must not be null");
 			this.responseMarker = MarkerFactory.getMarker(marker);
+			return this;
 		}
 
-		public void disableMarker(boolean disable) {
+		public Builder disableMarker(boolean disable) {
 			this.disableMarker = disable;
+			return this;
 		}
 
-		public void disablePrefix(boolean disable) {
+		public Builder disablePrefix(boolean disable) {
 			this.disablePrefix = disable;
+			return this;
+		}
+
+		public LoggingFilter build() {
+			return new LoggingFilter(this);
 		}
 	}
 }

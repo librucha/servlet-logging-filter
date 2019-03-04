@@ -25,12 +25,12 @@ public class LoggingHttpServletResponseWrapper extends HttpServletResponseWrappe
 	}
 
 	@Override
-	public ServletOutputStream getOutputStream() throws IOException {
+	public ServletOutputStream getOutputStream() {
 		return loggingServletOutpuStream;
 	}
 
 	@Override
-	public PrintWriter getWriter() throws IOException {
+	public PrintWriter getWriter() {
 		return new PrintWriter(loggingServletOutpuStream.baos);
 	}
 
@@ -66,10 +66,11 @@ public class LoggingHttpServletResponseWrapper extends HttpServletResponseWrappe
 
 		@Override
 		public void setWriteListener(WriteListener writeListener) {
+			// not used
 		}
 
 		@Override
-		public void write(int b) throws IOException {
+		public void write(int b) {
 			baos.write(b);
 		}
 
@@ -79,7 +80,7 @@ public class LoggingHttpServletResponseWrapper extends HttpServletResponseWrappe
 		}
 
 		@Override
-		public void write(byte[] b, int off, int len) throws IOException {
+		public void write(byte[] b, int off, int len) {
 			baos.write(b, off, len);
 		}
 	}

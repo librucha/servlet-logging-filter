@@ -26,6 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.slf4j.MarkerFactory.getMarker;
 
+@SuppressWarnings({"squid:S00100", "squid:S00112", "squid:S3457"})
 @ExtendWith({MockitoExtension.class})
 public class LoggingFilterTest {
 
@@ -107,7 +108,8 @@ public class LoggingFilterTest {
 	private class TestFilter implements Filter {
 
 		@Override
-		public void init(FilterConfig filterConfig) throws ServletException {
+		public void init(FilterConfig filterConfig) {
+			// not used
 		}
 
 		@Override
@@ -117,6 +119,7 @@ public class LoggingFilterTest {
 
 		@Override
 		public void destroy() {
+			// not used
 		}
 	}
 }

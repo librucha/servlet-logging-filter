@@ -9,7 +9,6 @@
     <name>Servlet logging filter</name>
     <description>Servlet filter for logging requests and responses</description>
     <url>http://librucha.github.io/servlet-logging-filter</url>
-
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -95,8 +94,8 @@
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <artifactId>hamcrest-core</artifactId>
                     <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -107,8 +106,8 @@
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -126,4 +125,12 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
