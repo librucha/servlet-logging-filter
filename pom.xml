@@ -4,7 +4,7 @@
 
 	<groupId>javax.servlet</groupId>
 	<artifactId>javax.servlet-logging-filter</artifactId>
-	<version>1.2.2-SNAPSHOT</version>
+	<version>1.2.2</version>
 
 	<name>Servlet logging filter</name>
 	<description>Servlet filter for logging requests and responses</description>
@@ -20,7 +20,7 @@
 	<scm>
 		<url>https://github.com/librucha/servlet-logging-filter</url>
 		<connection>scm:git:git@github.com:librucha/servlet-logging-filter.git</connection>
-		<tag>HEAD</tag>
+		<tag>1.2.2</tag>
 	</scm>
 
 	<properties>
