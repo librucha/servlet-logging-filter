@@ -4,7 +4,7 @@
 
     <groupId>javax.servlet</groupId>
     <artifactId>javax.servlet-logging-filter</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
 
     <name>Servlet logging filter</name>
     <description>Servlet filter for logging requests and responses</description>
